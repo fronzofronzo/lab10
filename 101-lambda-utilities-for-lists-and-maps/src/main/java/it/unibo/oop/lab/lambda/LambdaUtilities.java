@@ -1,6 +1,7 @@
 package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -90,10 +91,10 @@ public final class LambdaUtilities {
             if(m.containsKey(key)) {
                 m.get(key).add(t);
             } else {
-                m.put(key, new HashSet<T>());
+                m.put(key, new HashSet<T>(Arrays.asList(t)));
             }
         });
-        return null;
+        return m;
     }
 
     /**
