@@ -2,10 +2,8 @@ package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -63,9 +61,7 @@ public final class LambdaUtilities {
      */
     public static <T> List<Optional<T>> optFilter(final List<T> list, final Predicate<T> pre) {
         final List<Optional<T>> l1 = new ArrayList<>(list.size());
-        list.forEach(t -> {
-            l1.add(Optional.of(t).filter(pre));
-        });
+        list.forEach(t -> l1.add(Optional.of(t).filter(pre)));
         return l1;
     }
 
