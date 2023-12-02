@@ -1,26 +1,32 @@
 package it.unibo.mvc;
 
+import java.io.IOException;
+
 import java.util.Random;
+
+import it.unibo.mvc.Configuration.Builder;
 
 /**
  *
  */
 public final class DrawNumberImpl implements DrawNumber {
 
+    
     private int choice;
     private final int min;
     private final int max;
     private final int attempts;
-    private int remainingAttempts;
+    private int remainingAttempt;
     private final Random random = new Random();
 
     /**
      * @throws IllegalStateException if the configuration is not consistent
      */
-    public DrawNumberImpl(final int min, final int max, final int attempts) {
-        this.min = min;
-        this.max = max;
-        this.attempts = attempts;
+    public DrawNumberImpl() throws IOException{
+        this.config = build_config.build();
+        this.min = config.getMin();
+        this.max = config.getMax();
+        this.attempts = config.getAttempts();
         this.reset();
     }
 
@@ -47,5 +53,7 @@ public final class DrawNumberImpl implements DrawNumber {
         }
         return DrawResult.YOU_WON;
     }
+
+   
 
 }

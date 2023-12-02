@@ -1,5 +1,9 @@
 package it.unibo.mvc;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 /**
  * Encapsulates the concept of configuration.
@@ -63,6 +67,8 @@ public final class Configuration {
      */
     public static class Builder {
 
+        
+
         private static final int MIN = 0;
         private static final int MAX = 100;
         private static final int ATTEMPTS = 10;
@@ -102,13 +108,15 @@ public final class Configuration {
         /**
          * @return a configuration
          */
-        public final Configuration build() {
+        public final Configuration build() throws IOException{
             if (consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }
             consumed = true;
             return new Configuration(max, min, attempts);
         }
+
+        
     }
 }
 
