@@ -16,17 +16,16 @@ public final class DrawNumberImpl implements DrawNumber {
     private final int min;
     private final int max;
     private final int attempts;
-    private int remainingAttempt;
+    private int remainingAttempts;
     private final Random random = new Random();
 
     /**
      * @throws IllegalStateException if the configuration is not consistent
      */
-    public DrawNumberImpl() throws IOException{
-        this.config = build_config.build();
-        this.min = config.getMin();
-        this.max = config.getMax();
-        this.attempts = config.getAttempts();
+    public DrawNumberImpl(final int min, final int max, final int attempts) throws IOException{
+        this.min = min;
+        this.max = max;
+        this.attempts = attempts;
         this.reset();
     }
 

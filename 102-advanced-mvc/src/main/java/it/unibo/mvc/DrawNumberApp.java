@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+import it.unibo.mvc.Configuration.Builder;
+
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
@@ -25,14 +27,15 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         /*
          * Side-effect proof
          */
-        private final Configuration.Builder build_config = new Builder();
-        private final Configuration config
+        final Configuration.Builder build_config = new Builder();
+        readSettings(build_config);
+        final Configuration config  = build_config.build();
         this.views = Arrays.asList(Arrays.copyOf(views, views.length));
         for (final DrawNumberView view: views) {
             view.setObserver(this);
             view.start();
         }
-        this.model = new DrawNumberImpl();
+        this.model = new DrawNumberImpl(config.getMin(), config.getMax(), config.getAttempts());
     }
 
     @Override
@@ -71,19 +74,21 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @throws FileNotFoundException 
      */
     public static void main(final String... args) throws FileNotFoundException, IOException{
-        new DrawNumberApp(new DrawNumberViewImpl());
+        new DrawNumberApp(new DrawNumberViewImpl(),
+                new DrawNumberViewImpl(), 
+                new PrintStreamView(System.out),
+                new PrintStreamView("output.log"));
     }
 
-    private final void readSettings() throws IOException{
+    private final void readSettings(Builder b) throws IOException{
         System.out.println(DIRECTORY_RES);
         try(
-            
             final InputStreamReader file_stream = new InputStreamReader(ClassLoader.getSystemResourceAsStream(DIRECTORY_RES));
             final BufferedReader buff_r = new BufferedReader(file_stream);
         ) {
-            setMax(Integer.valueOf(readFromStream(buff_r)));
-            setAttempts(Integer.valueOf(readFromStream(buff_r)));
-            System.out.println(this.min + " " + this.max + " " + this.attempts);
+            b.setMin(Integer.valueOf(readFromStream(buff_r)));
+            b.setMax(Integer.valueOf(readFromStream(buff_r)));
+            b.setAttempts(Integer.valueOf(readFromStream(buff_r)));
         }
     }
 
